@@ -32,6 +32,11 @@ public class OrcamentoServiceImpl implements OrcamentoService {
     }
 
     @Override
+    public void concluirOrcamento(Long idOrcamento) {
+
+    }
+
+    @Override
     public void cancelarOrcamento(Long idOrcamento) {
 
         // Buscar

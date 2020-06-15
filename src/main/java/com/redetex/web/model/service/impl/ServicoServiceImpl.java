@@ -32,6 +32,11 @@ public class ServicoServiceImpl implements ServicoService {
     }
 
     @Override
+    public void concluirServico(Long idServico) {
+
+    }
+
+    @Override
     public void cancelarServico(Long idServico) {
 
         // Buscar
