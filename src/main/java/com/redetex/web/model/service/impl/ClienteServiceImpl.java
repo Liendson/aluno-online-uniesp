@@ -1,12 +1,17 @@
 package com.redetex.web.model.service.impl;
 
 import com.redetex.web.model.entidade.Cliente;
+import com.redetex.web.model.repository.ClienteRepository;
 import com.redetex.web.model.service.ClienteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
+
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     @Override
     public List<Cliente> listarTodosClientes() {
@@ -14,7 +19,7 @@ public class ClienteServiceImpl implements ClienteService {
         // Buscar
 
         // Retornar
-        return null;
+        return clienteRepository.findAll();
     }
 
     @Override
@@ -23,7 +28,7 @@ public class ClienteServiceImpl implements ClienteService {
         // Buscar
 
         // Retornar
-        return null;
+        return clienteRepository.findByIdCliente(idCliente);
     }
 
     @Override

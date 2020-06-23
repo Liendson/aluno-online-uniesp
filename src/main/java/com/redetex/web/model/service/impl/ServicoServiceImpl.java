@@ -1,12 +1,17 @@
 package com.redetex.web.model.service.impl;
 
 import com.redetex.web.model.entidade.Servico;
+import com.redetex.web.model.repository.ServicoRepository;
 import com.redetex.web.model.service.ServicoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class ServicoServiceImpl implements ServicoService {
+
+    @Autowired
+    private ServicoRepository servicoRepository;
 
     @Override
     public List<Servico> listarTodosServicos() {
@@ -14,7 +19,7 @@ public class ServicoServiceImpl implements ServicoService {
         // Buscar
 
         // Retornar
-        return null;
+        return servicoRepository.findAll();
     }
 
     @Override
@@ -23,7 +28,7 @@ public class ServicoServiceImpl implements ServicoService {
         // Buscar
 
         // Retornar
-        return null;
+        return servicoRepository.findByIdServico(idServico);
     }
 
     @Override
