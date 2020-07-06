@@ -1,5 +1,7 @@
 package com.redetex.web.model.entidade;
 
+import com.redetex.web.model.enums.SituacaoEnum;
+import com.redetex.web.model.enums.TipoEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,10 +19,10 @@ public class Orcamento {
     int idOrcamento;
 
     @Column(name = "TPORCAMENTO")
-    int tipoOrcamento;
+    TipoEnum tipoOrcamento;
 
     @Column(name = "STORCAMENTO")
-    int situacaoServico;
+    SituacaoEnum situacaoOrcamento;
 
     @Column(name = "CLIENTEORCAMENTO")
     Cliente clienteOrcamento;

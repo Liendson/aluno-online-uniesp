@@ -1,8 +1,11 @@
 package com.redetex.web.controller;
 
 import com.redetex.web.model.entidade.Servico;
+import com.redetex.web.model.entidade.dto.ServicoDTO;
 import com.redetex.web.model.service.ServicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,22 +19,22 @@ public class ServicosController {
     private ServicoService servicoService;
 
     @GetMapping(value = "/buscar")
-    public List<Servico> buscarTodosServicos() {
-        return servicoService.listarTodosServicos();
+    public ResponseEntity<List<ServicoDTO>> buscarTodosServicos() {
+        return new ResponseEntity<>(servicoService.listarTodosServicos(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar/{idServico}")
-    public Servico buscarServico(@PathVariable Long idServico) {
-        return servicoService.listarServico(idServico);
+    public ResponseEntity<ServicoDTO> buscarServico(@PathVariable Long idServico) {
+        return new ResponseEntity<>(servicoService.listarServico(idServico), HttpStatus.OK);
     }
 
     @PostMapping(value = "/salvar")
-    public void salvarServico(@RequestBody Servico servico) {
-        servicoService.salvarServico(servico);
+    public ResponseEntity<ServicoDTO> salvarServico(@RequestBody ServicoDTO servico) {
+        return new ResponseEntity<>(servicoService.salvarServico(servico), HttpStatus.OK);
     }
 
     @GetMapping(value = "/cancelar/{idServico}")
-    public void cancelarServico(@PathVariable Long idServico) {
-        servicoService.cancelarServico(idServico);
+    public ResponseEntity<ServicoDTO> cancelarServico(@PathVariable Long idServico) {
+        return new ResponseEntity<>(servicoService.cancelarServico(idServico), HttpStatus.OK);
     }
 }

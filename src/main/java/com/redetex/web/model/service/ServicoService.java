@@ -1,17 +1,19 @@
 package com.redetex.web.model.service;
 
 import com.redetex.web.model.entidade.Servico;
+import com.redetex.web.model.entidade.dto.ServicoDTO;
+
 import java.util.List;
 
 public interface ServicoService {
 
-    List<Servico> listarTodosServicos();
+    List<ServicoDTO> listarTodosServicos();
 
-    Servico listarServico(Long idServico);
+    ServicoDTO listarServico(Long idServico);
 
-    void salvarServico(Servico servico);
+    ServicoDTO salvarServico(ServicoDTO servico);
 
-    void concluirServico(Long idServico);
+    ServicoDTO concluirServico(Long idServico);
 
-    void cancelarServico(Long idServico);
+    ServicoDTO cancelarServico(Long idServico);
 }

@@ -1,6 +1,6 @@
 package com.redetex.web.model.entidade.dto;
 
-import com.redetex.web.model.entidade.Orcamento;
+import com.redetex.web.model.enums.SituacaoEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +11,8 @@ import java.util.Date;
 public class ServicoDTO {
 
     int idServico;
-    int situacaoServico;
-    Orcamento orcamentoServico;
+    SituacaoEnum situacaoServico;
+    OrcamentoDTO orcamentoServico;
     Date dataInstalacaoServico;
     String observacaoServico;
 

@@ -1,8 +1,7 @@
 package com.redetex.web.model.entidade.dto;
 
-import com.redetex.web.model.entidade.Cliente;
-import com.redetex.web.model.entidade.Endereco;
-import com.redetex.web.model.entidade.Medida;
+import com.redetex.web.model.enums.SituacaoEnum;
+import com.redetex.web.model.enums.TipoEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,11 +10,11 @@ import lombok.NoArgsConstructor;
 public class OrcamentoDTO {
 
     int idOrcamento;
-    int tipoOrcamento;
-    int situacaoServico;
-    Cliente clienteOrcamento;
-    Endereco enderecoOrcamento;
-    Medida medidasOrcamento;
+    TipoEnum tipoOrcamento;
+    SituacaoEnum situacaoOrcamento;
+    ClienteDTO clienteOrcamento;
+    EnderecoDTO enderecoOrcamento;
+    MedidaDTO medidasOrcamento;
     Float valorOrcamento;
     String observacaoOrcamento;
 

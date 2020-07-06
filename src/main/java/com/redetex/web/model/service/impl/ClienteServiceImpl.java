@@ -1,6 +1,8 @@
 package com.redetex.web.model.service.impl;
 
 import com.redetex.web.model.entidade.Cliente;
+import com.redetex.web.model.entidade.dto.ClienteDTO;
+import com.redetex.web.model.enums.SituacaoClienteEnum;
 import com.redetex.web.model.repository.ClienteRepository;
 import com.redetex.web.model.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,7 @@ public class ClienteServiceImpl implements ClienteService {
     private ClienteRepository clienteRepository;
 
     @Override
-    public List<Cliente> listarTodosClientes() {
+    public List<ClienteDTO> listarTodosClientes() {
 
         // Buscar
 
@@ -23,7 +25,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Cliente listarCliente(Long idCliente) {
+    public ClienteDTO listarCliente(Long idCliente) {
 
         // Buscar
 
@@ -32,14 +34,17 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public void salvarCliente(Cliente cliente) {
+    public ClienteDTO salvarCliente(ClienteDTO cliente) {
 
+        return clienteRepository.salvar(cliente);
     }
 
     @Override
-    public void cancelarCliente(Long idCliente) {
+    public ClienteDTO cancelarCliente(Long idCliente) {
 
-        // Buscar
+        ClienteDTO clienteCancelar = listarCliente(idCliente);
+
+        return clienteRepository.cancelar(clienteCancelar);
 
         // Verificar situacao
 

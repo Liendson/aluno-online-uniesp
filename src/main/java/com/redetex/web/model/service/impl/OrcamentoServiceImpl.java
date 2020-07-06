@@ -1,6 +1,7 @@
 package com.redetex.web.model.service.impl;
 
 import com.redetex.web.model.entidade.Orcamento;
+import com.redetex.web.model.entidade.dto.OrcamentoDTO;
 import com.redetex.web.model.repository.OrcamentoRepository;
 import com.redetex.web.model.service.OrcamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
     }
 
     @Override
-    public Orcamento listarOrcamento(Long idOrcamento) {
+    public OrcamentoDTO listarOrcamento(Long idOrcamento) {
 
         // Buscar
 
@@ -32,25 +33,27 @@ public class OrcamentoServiceImpl implements OrcamentoService {
     }
 
     @Override
-    public void salvarOrcamento(Orcamento orcamento) {
+    public OrcamentoDTO salvarOrcamento(OrcamentoDTO orcamento) {
+
+        return orcamentoRepository.salvar(orcamento);
 
     }
 
     @Override
-    public void concluirOrcamento(Long idOrcamento) {
+    public OrcamentoDTO concluirOrcamento(Long idOrcamento) {
+
+        OrcamentoDTO orcamentoConcluido = listarOrcamento(idOrcamento);
+
+        return orcamentoRepository.concluir(orcamentoConcluido);
 
     }
 
     @Override
-    public void cancelarOrcamento(Long idOrcamento) {
+    public OrcamentoDTO cancelarOrcamento(Long idOrcamento) {
 
-        // Buscar
+        OrcamentoDTO orcamentoCancelado = listarOrcamento(idOrcamento);
 
-        // Verificar situacao
-
-        // Setar situacao
-
-        // Salvar
+        return orcamentoRepository.cancelar(orcamentoCancelado);
 
     }
 }

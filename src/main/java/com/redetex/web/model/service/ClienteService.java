@@ -1,16 +1,17 @@
 package com.redetex.web.model.service;
 
 import com.redetex.web.model.entidade.Cliente;
+import com.redetex.web.model.entidade.dto.ClienteDTO;
 
 import java.util.List;
 
 public interface ClienteService {
 
-    List<Cliente> listarTodosClientes();
+    List<ClienteDTO> listarTodosClientes();
 
-    Cliente listarCliente(Long idCliente);
+    ClienteDTO listarCliente(Long idCliente);
 
-    void salvarCliente(Cliente cliente);
+    ClienteDTO salvarCliente(ClienteDTO cliente);
 
-    void cancelarCliente(Long idCliente);
+    ClienteDTO cancelarCliente(Long idCliente);
 }

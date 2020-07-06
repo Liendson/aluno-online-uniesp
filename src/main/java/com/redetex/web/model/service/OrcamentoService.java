@@ -1,17 +1,19 @@
 package com.redetex.web.model.service;
 
 import com.redetex.web.model.entidade.Orcamento;
+import com.redetex.web.model.entidade.dto.OrcamentoDTO;
+
 import java.util.List;
 
 public interface OrcamentoService {
 
     List<Orcamento> listarTodosOrcamentos();
 
-    Orcamento listarOrcamento(Long idOrcamento);
+    OrcamentoDTO listarOrcamento(Long idOrcamento);
 
-    void salvarOrcamento(Orcamento orcamento);
+    OrcamentoDTO salvarOrcamento(OrcamentoDTO orcamento);
 
-    void concluirOrcamento(Long idOrcamento);
+    OrcamentoDTO concluirOrcamento(Long idOrcamento);
 
-    void cancelarOrcamento(Long idOrcamento);
+    OrcamentoDTO cancelarOrcamento(Long idOrcamento);
 }
