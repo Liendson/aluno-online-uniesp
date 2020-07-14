@@ -20,7 +20,7 @@ public class ClientesController {
 
     @GetMapping(value = "/buscar")
     public ResponseEntity<List<ClienteDTO>> buscarTodosClientes() {
-        return new ResponseEntity<>(clienteService.listarTodosClientes(), HttpStatus.OK) ;
+        return new ResponseEntity<>(clienteService.listarTodosClientes(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar/{idCliente}")

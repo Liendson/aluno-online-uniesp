@@ -19,5 +19,5 @@ public interface OrcamentoRepository {
     OrcamentoDTO concluir(OrcamentoDTO orcamento);
 
     @Query(value = "SELECT * FROM TB_ORCAMENTOS")
-    List<Orcamento> findAll();
+    List<OrcamentoDTO> findAll();
 }

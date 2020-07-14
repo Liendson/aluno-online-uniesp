@@ -19,8 +19,8 @@ public class OrcamentosController {
     private OrcamentoService orcamentoService;
 
     @GetMapping(value = "/buscar")
-    public List<Orcamento> buscarTodosOrcamentos() {
-        return orcamentoService.listarTodosOrcamentos();
+    public ResponseEntity<List<OrcamentoDTO>> buscarTodosOrcamentos() {
+        return new ResponseEntity<>(orcamentoService.listarTodosOrcamentos(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/buscar/{idOrcamento}")
@@ -29,12 +29,12 @@ public class OrcamentosController {
     }
 
     @PostMapping(value = "/salvar")
-    public void salvarOrcamento(@RequestBody OrcamentoDTO orcamento) {
-        orcamentoService.salvarOrcamento(orcamento);
+    public ResponseEntity<OrcamentoDTO> salvarOrcamento(@RequestBody OrcamentoDTO orcamento) {
+        return new ResponseEntity<>(orcamentoService.salvarOrcamento(orcamento), HttpStatus.OK);
     }
 
     @GetMapping(value = "/cancelar/{idOrcamento}")
-    public void cancelarOrcamento(@PathVariable Long idOrcamento) {
-        orcamentoService.cancelarOrcamento(idOrcamento);
+    public ResponseEntity<OrcamentoDTO> cancelarOrcamento(@PathVariable Long idOrcamento) {
+        return new ResponseEntity<>(orcamentoService.cancelarOrcamento(idOrcamento), HttpStatus.OK);
     }
 }

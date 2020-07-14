@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OrcamentoService {
 
-    List<Orcamento> listarTodosOrcamentos();
+    List<OrcamentoDTO> listarTodosOrcamentos();
 
     OrcamentoDTO listarOrcamento(Long idOrcamento);
 

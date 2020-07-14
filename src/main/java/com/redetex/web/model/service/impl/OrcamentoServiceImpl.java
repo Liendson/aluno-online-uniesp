@@ -15,7 +15,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
     private OrcamentoRepository orcamentoRepository;
 
     @Override
-    public List<Orcamento> listarTodosOrcamentos() {
+    public List<OrcamentoDTO> listarTodosOrcamentos() {
 
         // Buscar
 
