@@ -32,7 +32,7 @@ public class Orcamento {
     Endereco enderecoOrcamento;
 
     @OneToOne
-    @Column(name = "MEDIDASORCAMENTO")
+    @JoinColumn(name = "MEDIDASORCAMENTO", nullable = false)
     Medida medidasOrcamento;
 
     @Column(name = "VALORORCAMENTO")
