@@ -1,22 +1,24 @@
 package com.redetex.web.model.repository;
 
 import com.redetex.web.model.entidade.Cliente;
-import com.redetex.web.model.entidade.dto.ClienteDTO;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
-public interface ClienteRepository {
+@Transactional
+public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
-    ClienteDTO findByIdCliente(Long idCliente);
+//    Cliente findByIdCliente(Long idCliente);
 
-    ClienteDTO salvar(ClienteDTO cliente);
+//    Cliente salvar(Cliente cliente);
 
-    ClienteDTO cancelar(ClienteDTO cliente);
+//    Cliente cancelar(Cliente cliente);
 
-    @Query(value = "SELECT * FROM TB_CLIENTES")
-    List<ClienteDTO> findAll();
+    @Query(value = "SELECT * FROM TB_CLIENTES;", nativeQuery = true)
+    List<Cliente> findAll();
 
 }

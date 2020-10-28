@@ -1,6 +1,8 @@
 package com.redetex.web.model.entidade.dto;
 
+import com.redetex.web.model.entidade.Orcamento;
 import com.redetex.web.model.enums.SituacaoEnum;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,8 +14,23 @@ public class ServicoDTO {
 
     int idServico;
     SituacaoEnum situacaoServico;
-    OrcamentoDTO orcamentoServico;
+    Orcamento orcamentoServico;
     Date dataInstalacaoServico;
     String observacaoServico;
+
+    @Builder
+    public ServicoDTO(
+        int idServico,
+        SituacaoEnum situacaoServico,
+        Orcamento orcamentoServico,
+        Date dataInstalacaoServico,
+        String observacaoServico
+    ) {
+        this.idServico = idServico;
+        this.situacaoServico = situacaoServico;
+        this.orcamentoServico = orcamentoServico;
+        this.dataInstalacaoServico = dataInstalacaoServico;
+        this.observacaoServico = observacaoServico;
+    }
 
 }

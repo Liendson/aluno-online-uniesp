@@ -1,6 +1,7 @@
 package com.redetex.web.model.entidade.dto;
 
 import com.redetex.web.model.enums.SituacaoClienteEnum;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,5 +13,18 @@ public class ClienteDTO {
     String nomeCliente;
     String telefoneCliente;
     SituacaoClienteEnum situacao;
+
+    @Builder
+    public ClienteDTO(
+        int idCliente,
+        String nomeCliente,
+        String telefoneCliente,
+        SituacaoClienteEnum situacao
+    ) {
+        this.idCliente = idCliente;
+        this.nomeCliente = nomeCliente;
+        this.telefoneCliente = telefoneCliente;
+        this.situacao = situacao;
+    }
 
 }

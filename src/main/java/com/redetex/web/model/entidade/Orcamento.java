@@ -5,9 +5,7 @@ import com.redetex.web.model.enums.TipoEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -15,6 +13,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Orcamento {
 
+    @Id
     @Column(name = "IDORCAMENTO")
     int idOrcamento;
 
@@ -24,12 +23,15 @@ public class Orcamento {
     @Column(name = "STORCAMENTO")
     SituacaoEnum situacaoOrcamento;
 
-    @Column(name = "CLIENTEORCAMENTO")
+    @OneToOne
+    @JoinColumn(name = "CLIENTEORCAMENTO", nullable = false)
     Cliente clienteOrcamento;
 
-    @Column(name = "ENDERECOORCAMENTO")
+    @OneToOne
+    @JoinColumn(name = "ENDERECOORCAMENTO", nullable = false)
     Endereco enderecoOrcamento;
 
+    @OneToOne
     @Column(name = "MEDIDASORCAMENTO")
     Medida medidasOrcamento;
 
@@ -38,9 +40,5 @@ public class Orcamento {
 
     @Column(name = "OBSORCAMENTO")
     String observacaoOrcamento;
-
-    public Float calcularValorOrcamento(Medida medidasOrcamento, Float valorMetroQuadrado) {
-        return (medidasOrcamento.getAltura() * medidasOrcamento.getLargura()) * valorMetroQuadrado;
-    }
 
 }

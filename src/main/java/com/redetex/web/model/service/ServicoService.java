@@ -1,19 +1,21 @@
 package com.redetex.web.model.service;
 
-import com.redetex.web.model.entidade.Servico;
 import com.redetex.web.model.entidade.dto.ServicoDTO;
+import com.redetex.web.model.exception.CustomException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface ServicoService {
 
     List<ServicoDTO> listarTodosServicos();
 
-    ServicoDTO listarServico(Long idServico);
+    ServicoDTO listarServico(Integer idServico);
 
-    ServicoDTO salvarServico(ServicoDTO servico);
+    ServicoDTO salvarServico(ServicoDTO servico) throws CustomException;
 
-    ServicoDTO concluirServico(Long idServico);
+    ServicoDTO concluirServico(Integer idServico) throws CustomException;
 
-    ServicoDTO cancelarServico(Long idServico);
+    ServicoDTO cancelarServico(Integer idServico) throws CustomException;
 }

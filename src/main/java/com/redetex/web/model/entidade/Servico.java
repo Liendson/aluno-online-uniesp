@@ -1,13 +1,10 @@
 package com.redetex.web.model.entidade;
 
 import com.redetex.web.model.enums.SituacaoEnum;
-import com.redetex.web.model.enums.TipoEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -16,13 +13,15 @@ import java.util.Date;
 @NoArgsConstructor
 public class Servico {
 
+    @Id
     @Column(name = "IDSERVICO")
     int idServico;
 
     @Column(name = "SITSERVICO")
     SituacaoEnum situacaoServico;
 
-    @Column(name = "ORCAMENTOSERVICO")
+    @OneToOne()
+    @JoinColumn(name = "ORCAMENTOSERVICO", nullable = false)
     Orcamento orcamentoServico;
 
     @Column(name = "DTINSTALACAO")
