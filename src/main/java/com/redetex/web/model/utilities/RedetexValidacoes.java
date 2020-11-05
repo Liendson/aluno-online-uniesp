@@ -7,7 +7,7 @@ public enum RedetexValidacoes {
     ERRO_ORCAMENTO_NAO_EXISTE("Orçamento não Existe!"),
     ERRO_SERVICO_NAO_EXISTE("Serviço não Existe!"),
 
-    ERRO_SITUACAO_INVALIDA("Cliente não Existe!"),
+    ERRO_SITUACAO_INVALIDA("Situação Inválida!"),
 
     // Mensagens de Alerta
     ALERTA_001("Alerta");
