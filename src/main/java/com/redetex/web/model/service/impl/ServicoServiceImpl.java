@@ -1,5 +1,6 @@
 package com.redetex.web.model.service.impl;
 
+import static com.redetex.web.model.exception.DefaultException.*;
 import com.redetex.web.model.entidade.Servico;
 import com.redetex.web.model.entidade.dto.ServicoDTO;
 import com.redetex.web.model.enums.SituacaoEnum;
@@ -48,11 +49,9 @@ public class ServicoServiceImpl implements ServicoService {
 
         Optional<Servico> servico = servicoRepository.findById(idServico);
 
-        if (!servico.isPresent()) {
-            return ServicoDTO.builder().build();
-        }
-
-        return modelMapper.map(servico.get(), ServicoDTO.class);
+        return !servico.isPresent()
+                ? ServicoDTO.builder().build()
+                : modelMapper.map(servico.get(), ServicoDTO.class);
     }
 
     @Override
@@ -60,9 +59,7 @@ public class ServicoServiceImpl implements ServicoService {
 
         Optional<Servico> servico = servicoRepository.findById(servicoDTO.getIdServico());
 
-        if (!servico.isPresent()) {
-            throw new CustomException(RedetexValidacoes.ERRO_001);
-        }
+        ifTrueThrowException(!servico.isPresent(), RedetexValidacoes.ERRO_SERVICO_NAO_EXISTE);
 
         Servico servicoAlterado = servico.get();
         servicoAlterado.setObservacaoServico(servicoDTO.getObservacaoServico());
@@ -79,15 +76,14 @@ public class ServicoServiceImpl implements ServicoService {
 
         Optional<Servico> servico = servicoRepository.findById(idServico);
 
-        if (!servico.isPresent()) {
-            throw new CustomException(RedetexValidacoes.ERRO_001);
-        }
+        ifTrueThrowException(!servico.isPresent(), RedetexValidacoes.ERRO_SERVICO_NAO_EXISTE);
 
         Servico servicoConcluido = servico.get();
-        if (servicoConcluido.getSituacaoServico().equals(SituacaoEnum.CANCELADO)
-                || servicoConcluido.getSituacaoServico().equals(SituacaoEnum.CONCLUIDO)) {
-            throw new CustomException(RedetexValidacoes.ERRO_001);
-        }
+
+        ifTrueThrowException(servicoConcluido.getSituacaoServico().equals(SituacaoEnum.CANCELADO)
+                || servicoConcluido.getSituacaoServico().equals(SituacaoEnum.CONCLUIDO),
+                RedetexValidacoes.ERRO_SITUACAO_INVALIDA);
+
         servicoConcluido.setSituacaoServico(SituacaoEnum.CONCLUIDO);
         servicoRepository.save(servicoConcluido);
         return modelMapper.map(servicoConcluido, ServicoDTO.class);
@@ -98,18 +94,16 @@ public class ServicoServiceImpl implements ServicoService {
 
         Optional<Servico> servico = servicoRepository.findById(idServico);
 
-        if (!servico.isPresent()) {
-            throw new CustomException(RedetexValidacoes.ERRO_001);
-        }
+        ifTrueThrowException(!servico.isPresent(), RedetexValidacoes.ERRO_SERVICO_NAO_EXISTE);
 
         Servico servicoCancelado = servico.get();
-        if (servicoCancelado.getSituacaoServico().equals(SituacaoEnum.CANCELADO)
-                || servicoCancelado.getSituacaoServico().equals(SituacaoEnum.CONCLUIDO)) {
-            throw new CustomException(RedetexValidacoes.ERRO_001);
-        }
+
+        ifTrueThrowException(servicoCancelado.getSituacaoServico().equals(SituacaoEnum.CANCELADO)
+                || servicoCancelado.getSituacaoServico().equals(SituacaoEnum.CONCLUIDO),
+                RedetexValidacoes.ERRO_SITUACAO_INVALIDA);
+
         servicoCancelado.setSituacaoServico(SituacaoEnum.CANCELADO);
         servicoRepository.save(servicoCancelado);
         return modelMapper.map(servicoCancelado, ServicoDTO.class);
-
     }
 }

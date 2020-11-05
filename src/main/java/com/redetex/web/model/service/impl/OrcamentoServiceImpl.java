@@ -1,5 +1,6 @@
 package com.redetex.web.model.service.impl;
 
+import static com.redetex.web.model.exception.DefaultException.*;
 import com.redetex.web.model.entidade.Orcamento;
 import com.redetex.web.model.entidade.dto.OrcamentoDTO;
 import com.redetex.web.model.enums.SituacaoEnum;
@@ -52,11 +53,9 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 
         Optional<Orcamento> orcamento = orcamentoRepository.findById(idOrcamento);
 
-        if (!orcamento.isPresent()) {
-            return OrcamentoDTO.builder().build();
-        }
-
-        return modelMapper.map(orcamento.get(), OrcamentoDTO.class);
+        return !orcamento.isPresent()
+                ? OrcamentoDTO.builder().build()
+                : modelMapper.map(orcamento.get(), OrcamentoDTO.class);
 
     }
 
@@ -65,9 +64,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 
         Optional<Orcamento> orcamento = orcamentoRepository.findById(orcamentoDTO.getIdOrcamento());
 
-        if (!orcamento.isPresent()) {
-            throw new CustomException(RedetexValidacoes.ERRO_001);
-        }
+        ifTrueThrowException(!orcamento.isPresent(), RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
 
         Orcamento orcamentoAlterado = orcamento.get();
         orcamentoAlterado.setClienteOrcamento(orcamentoAlterado.getClienteOrcamento());
@@ -88,15 +85,14 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 
         Optional<Orcamento> orcamento = orcamentoRepository.findById(idOrcamento);
 
-        if (!orcamento.isPresent()) {
-            throw new CustomException(RedetexValidacoes.ERRO_001);
-        }
+        ifTrueThrowException(!orcamento.isPresent(), RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
 
         Orcamento orcamentoConcluido = orcamento.get();
-        if (orcamentoConcluido.getSituacaoOrcamento().equals(SituacaoEnum.CANCELADO)
-                || orcamentoConcluido.getSituacaoOrcamento().equals(SituacaoEnum.CONCLUIDO)) {
-            throw new CustomException(RedetexValidacoes.ERRO_001);
-        }
+
+        ifTrueThrowException(orcamentoConcluido.getSituacaoOrcamento().equals(SituacaoEnum.CANCELADO)
+                || orcamentoConcluido.getSituacaoOrcamento().equals(SituacaoEnum.CONCLUIDO),
+                RedetexValidacoes.ERRO_SITUACAO_INVALIDA);
+
         orcamentoConcluido.setSituacaoOrcamento(SituacaoEnum.CONCLUIDO);
         orcamentoRepository.save(orcamentoConcluido);
         return modelMapper.map(orcamentoConcluido, OrcamentoDTO.class);
@@ -108,15 +104,14 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 
         Optional<Orcamento> orcamento = orcamentoRepository.findById(idOrcamento);
 
-        if (!orcamento.isPresent()) {
-            throw new CustomException(RedetexValidacoes.ERRO_001);
-        }
+        ifTrueThrowException(!orcamento.isPresent(), RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
 
         Orcamento servicoCancelado = orcamento.get();
-        if (servicoCancelado.getSituacaoOrcamento().equals(SituacaoEnum.CANCELADO)
-                || servicoCancelado.getSituacaoOrcamento().equals(SituacaoEnum.CONCLUIDO)) {
-            throw new CustomException(RedetexValidacoes.ERRO_001);
-        }
+
+        ifTrueThrowException(servicoCancelado.getSituacaoOrcamento().equals(SituacaoEnum.CANCELADO)
+                || servicoCancelado.getSituacaoOrcamento().equals(SituacaoEnum.CONCLUIDO),
+                RedetexValidacoes.ERRO_SITUACAO_INVALIDA);
+
         servicoCancelado.setSituacaoOrcamento(SituacaoEnum.CANCELADO);
         orcamentoRepository.save(servicoCancelado);
         return modelMapper.map(servicoCancelado, OrcamentoDTO.class);

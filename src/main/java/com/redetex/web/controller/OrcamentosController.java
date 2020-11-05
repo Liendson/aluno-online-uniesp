@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("orcamentos")
+@RequestMapping("/orcamentos")
 public class OrcamentosController {
 
     @Autowired private OrcamentoService orcamentoService;

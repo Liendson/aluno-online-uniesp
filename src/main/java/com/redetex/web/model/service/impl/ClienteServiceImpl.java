@@ -1,5 +1,8 @@
 package com.redetex.web.model.service.impl;
 
+import static com.redetex.web.model.exception.DefaultException.*;
+import static com.redetex.web.model.exception.DefaultException.ifTrueThrowException;
+
 import com.redetex.web.model.entidade.Cliente;
 import com.redetex.web.model.entidade.dto.ClienteDTO;
 import com.redetex.web.model.enums.SituacaoClienteEnum;
@@ -48,11 +51,9 @@ public class ClienteServiceImpl implements ClienteService {
 
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
 
-        if (!cliente.isPresent()) {
-            return ClienteDTO.builder().build();
-        }
-
-        return modelMapper.map(cliente.get(), ClienteDTO.class);
+        return !cliente.isPresent()
+                ? ClienteDTO.builder().build()
+                : modelMapper.map(cliente.get(), ClienteDTO.class);
     }
 
     @Override
@@ -74,15 +75,13 @@ public class ClienteServiceImpl implements ClienteService {
 
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
 
-        if (!cliente.isPresent()) {
-            throw new CustomException(RedetexValidacoes.ERRO_001);
-        }
+        ifTrueThrowException(!cliente.isPresent(), RedetexValidacoes.ERRO_CLIENTE_NAO_EXISTE);
 
         Cliente clienteCancelado = cliente.get();
 
-        if (clienteCancelado.getSituacao().equals(SituacaoClienteEnum.CANCELADO)) {
-            throw new CustomException(RedetexValidacoes.ERRO_001);
-        }
+        ifTrueThrowException(clienteCancelado.getSituacao().equals(SituacaoClienteEnum.CANCELADO),
+                RedetexValidacoes.ERRO_SITUACAO_INVALIDA);
+
         clienteCancelado.setSituacao(SituacaoClienteEnum.CANCELADO);
         clienteRepository.save(clienteCancelado);
         return modelMapper.map(clienteCancelado, ClienteDTO.class);
