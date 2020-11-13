@@ -1,5 +1,8 @@
 package com.redetex.web.model.entidade.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.EnumDeserializer;
 import com.redetex.web.model.entidade.Cliente;
 import com.redetex.web.model.entidade.Endereco;
 import com.redetex.web.model.entidade.Medida;
@@ -13,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrcamentoDTO {
 
-    int idOrcamento;
+    Long idOrcamento;
     TipoEnum tipoOrcamento;
     SituacaoEnum situacaoOrcamento;
     Cliente clienteOrcamento;
@@ -24,7 +27,7 @@ public class OrcamentoDTO {
 
     @Builder
     public OrcamentoDTO(
-        int idOrcamento,
+        Long idOrcamento,
         TipoEnum tipoOrcamento,
         SituacaoEnum situacaoOrcamento,
         Cliente clienteOrcamento,

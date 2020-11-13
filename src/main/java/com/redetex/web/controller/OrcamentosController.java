@@ -21,7 +21,7 @@ public class OrcamentosController {
     }
 
     @GetMapping(value = "/buscar/{idOrcamento}")
-    public ResponseEntity<OrcamentoDTO> buscarOrcamento(@PathVariable Integer idOrcamento) {
+    public ResponseEntity<OrcamentoDTO> buscarOrcamento(@PathVariable Integer idOrcamento) throws CustomException {
         return ResponseEntity.ok(orcamentoService.listarOrcamento(idOrcamento));
     }
 
@@ -34,4 +34,15 @@ public class OrcamentosController {
     public ResponseEntity<OrcamentoDTO> cancelarOrcamento(@PathVariable Integer idOrcamento) throws CustomException {
         return ResponseEntity.ok(orcamentoService.cancelarOrcamento(idOrcamento));
     }
+
+    @PostMapping(value = "/consultar")
+    public ResponseEntity<List<OrcamentoDTO>> consultarOrcamento(@RequestBody OrcamentoDTO orcamentoDTO) throws CustomException {
+        return ResponseEntity.ok(orcamentoService.consultarOrcamentos(orcamentoDTO));
+    }
+
+    @GetMapping(value = "/concluir/{idOrcamento}")
+    public ResponseEntity<OrcamentoDTO> concluirOrcamento(@PathVariable Integer idOrcamento) throws CustomException {
+        return ResponseEntity.ok(orcamentoService.concluirOrcamento(idOrcamento));
+    }
+
 }

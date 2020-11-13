@@ -10,14 +10,8 @@ import java.util.List;
 @Repository
 public interface OrcamentoRepository extends JpaRepository<Orcamento, Integer> {
 
-//    OrcamentoDTO findByIdOrcamento(Long idOrcamento);
-//
-//    OrcamentoDTO salvar(OrcamentoDTO orcamento);
-//
-//    OrcamentoDTO cancelar(OrcamentoDTO orcamento);
-//
-//    OrcamentoDTO concluir(OrcamentoDTO orcamento);
-
-    @Query(value = "SELECT * FROM TB_ORCAMENTOS;", nativeQuery = true)
     List<Orcamento> findAll();
+
+    @Query(value = "SELECT * FROM TB_ORCAMENTOS WHERE STORCAMENTO IN (0,1);", nativeQuery = true)
+    List<Orcamento> findAllOrcamentosAtivos();
 }

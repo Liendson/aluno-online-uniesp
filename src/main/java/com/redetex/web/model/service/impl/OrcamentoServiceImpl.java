@@ -1,10 +1,14 @@
 package com.redetex.web.model.service.impl;
 
-import static com.redetex.web.model.exception.DefaultException.*;
+import com.redetex.web.model.entidade.Cliente;
+import com.redetex.web.model.entidade.Endereco;
 import com.redetex.web.model.entidade.Orcamento;
 import com.redetex.web.model.entidade.dto.OrcamentoDTO;
+import com.redetex.web.model.enums.SituacaoClienteEnum;
 import com.redetex.web.model.enums.SituacaoEnum;
 import com.redetex.web.model.exception.CustomException;
+import com.redetex.web.model.repository.ClienteRepository;
+import com.redetex.web.model.repository.EnderecoRepository;
 import com.redetex.web.model.repository.OrcamentoRepository;
 import com.redetex.web.model.service.OrcamentoService;
 import com.redetex.web.model.utilities.RedetexValidacoes;
@@ -14,19 +18,31 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import static com.redetex.web.model.exception.DefaultException.ifTrueThrowException;
 
 @Service
 public class OrcamentoServiceImpl implements OrcamentoService {
 
     @Autowired private OrcamentoRepository orcamentoRepository;
+    @Autowired private EnderecoRepository enderecoRepository;
+    @Autowired private ClienteRepository clienteRepository;
     @Autowired private ModelMapper modelMapper;
 
+    /**
+     * Lista todos os Orcamentos ativos.
+     *
+     * @return uma lista contendo todos os orcamentos
+     * @author Liendson Douglas
+     */
     @Override
     public List<OrcamentoDTO> listarTodosOrcamentos() {
 
         List<OrcamentoDTO> listaTodosOrcamentosDTO = new ArrayList<>();
-        List<Orcamento> listaTodosOrcamentos = orcamentoRepository.findAll();
+        List<Orcamento> listaTodosOrcamentos =
+                orcamentoRepository.findAllOrcamentosAtivos();
 
         listaTodosOrcamentos.forEach(orcamento ->
             listaTodosOrcamentosDTO.add(
@@ -48,10 +64,20 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 
     }
 
+    /**
+     * Detalha os dados de um orcamento.
+     *
+     * @return os dados do orçamento ou um orçamento vazio
+     * @author Liendson Douglas
+     */
     @Override
-    public OrcamentoDTO listarOrcamento(Integer idOrcamento) {
+    public OrcamentoDTO listarOrcamento(Integer id) throws CustomException {
 
-        Optional<Orcamento> orcamento = orcamentoRepository.findById(idOrcamento);
+        ifTrueThrowException(Objects.isNull(id),
+                RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
+
+        Optional<Orcamento> orcamento =
+                orcamentoRepository.findById(id);
 
         return !orcamento.isPresent()
                 ? OrcamentoDTO.builder().build()
@@ -59,33 +85,106 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 
     }
 
+    /**
+     * Altera ou insere um Orcamento.
+     *
+     * @return o orçamento incluído ou alterado
+     * @author Liendson Douglas
+     * @see #incluirOrcamento(OrcamentoDTO)
+     * @see #alterarOrcamento(Orcamento, OrcamentoDTO)
+     */
     @Override
     public OrcamentoDTO salvarOrcamento(OrcamentoDTO orcamentoDTO) throws CustomException {
 
-        Optional<Orcamento> orcamento = orcamentoRepository.findById(orcamentoDTO.getIdOrcamento());
+        ifTrueThrowException(Objects.isNull(orcamentoDTO.getIdOrcamento()),
+                RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
 
-        ifTrueThrowException(!orcamento.isPresent(), RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
+        Optional<Orcamento> orcamento =
+                orcamentoRepository.findById(orcamentoDTO.getIdOrcamento().intValue());
 
-        Orcamento orcamentoAlterado = orcamento.get();
-        orcamentoAlterado.setClienteOrcamento(orcamentoAlterado.getClienteOrcamento());
-        orcamentoAlterado.setEnderecoOrcamento(orcamentoAlterado.getEnderecoOrcamento());
-        orcamentoAlterado.setObservacaoOrcamento(orcamentoAlterado.getObservacaoOrcamento());
-        orcamentoAlterado.setSituacaoOrcamento(orcamentoAlterado.getSituacaoOrcamento());
-        orcamentoAlterado.setTipoOrcamento(orcamentoAlterado.getTipoOrcamento());
-        orcamentoAlterado.setValorOrcamento(orcamentoAlterado.getValorOrcamento());
-        orcamentoAlterado.setMedidasOrcamento(orcamentoAlterado.getMedidasOrcamento());
-        orcamentoRepository.save(orcamentoAlterado);
-
-        return modelMapper.map(orcamentoAlterado, OrcamentoDTO.class);
+        return orcamento.isPresent()
+            ? alterarOrcamento(orcamento.get(), orcamentoDTO)
+            : incluirOrcamento(orcamentoDTO);
 
     }
 
+    /**
+     * Inclui um Orcamento.
+     *
+     * @return o orçamento incluído
+     * @author Liendson Douglas
+     * @see #salvarOrcamento(OrcamentoDTO)
+     */
+    private OrcamentoDTO incluirOrcamento(OrcamentoDTO orcamentoDTO) {
+
+        Orcamento orcamentoIncluido = new Orcamento();
+
+        if (Objects.nonNull(orcamentoDTO.getClienteOrcamento().getIdCliente())) {
+            Optional<Cliente> cliente =
+                    clienteRepository.findById(orcamentoDTO.getClienteOrcamento().getIdCliente().intValue());
+            orcamentoIncluido.setClienteOrcamento(cliente.get());
+        } else {
+            orcamentoDTO.getClienteOrcamento().setSituacao(SituacaoClienteEnum.ATIVO);
+            orcamentoIncluido.setClienteOrcamento(orcamentoDTO.getClienteOrcamento());
+        }
+
+        orcamentoIncluido.setEnderecoOrcamento(orcamentoDTO.getEnderecoOrcamento());
+        orcamentoIncluido.setObservacaoOrcamento(orcamentoDTO.getObservacaoOrcamento());
+        orcamentoIncluido.setSituacaoOrcamento(SituacaoEnum.NOVO);
+        orcamentoIncluido.setTipoOrcamento(orcamentoDTO.getTipoOrcamento());
+        orcamentoIncluido.setValorOrcamento(orcamentoDTO.getValorOrcamento());
+
+        Cliente clienteIncluido = clienteRepository.save(orcamentoDTO.getClienteOrcamento());
+        Endereco enderecoIncluido = enderecoRepository.save(orcamentoDTO.getEnderecoOrcamento());
+
+        orcamentoIncluido.setClienteOrcamento(clienteIncluido);
+        orcamentoIncluido.setEnderecoOrcamento(enderecoIncluido);
+
+        orcamentoRepository.save(orcamentoIncluido);
+
+        return modelMapper.map(orcamentoIncluido, OrcamentoDTO.class);
+
+    }
+
+    /**
+     * Altera um Orcamento.
+     *
+     * @return o orçamento alterado
+     * @author Liendson Douglas
+     * @see #salvarOrcamento(OrcamentoDTO)
+     */
+    private OrcamentoDTO alterarOrcamento(Orcamento orcamento, OrcamentoDTO orcamentoDTO) {
+
+        orcamento.setClienteOrcamento(orcamentoDTO.getClienteOrcamento());
+        orcamento.setEnderecoOrcamento(orcamentoDTO.getEnderecoOrcamento());
+        orcamento.setObservacaoOrcamento(orcamentoDTO.getObservacaoOrcamento());
+        orcamento.setSituacaoOrcamento(orcamentoDTO.getSituacaoOrcamento());
+        orcamento.setTipoOrcamento(orcamentoDTO.getTipoOrcamento());
+        orcamento.setValorOrcamento(orcamentoDTO.getValorOrcamento());
+        orcamento.setMedidasOrcamento(orcamentoDTO.getMedidasOrcamento());
+
+        orcamentoRepository.save(orcamento);
+
+        return modelMapper.map(orcamento, OrcamentoDTO.class);
+
+    }
+
+    /**
+     * Altera a situacao de um Orcamento para concluido.
+     *
+     * @return o orçamento alterado
+     * @author Liendson Douglas
+     */
     @Override
     public OrcamentoDTO concluirOrcamento(Integer idOrcamento) throws CustomException {
 
+        ifTrueThrowException(Objects.isNull(idOrcamento),
+                RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
+
         Optional<Orcamento> orcamento = orcamentoRepository.findById(idOrcamento);
 
-        ifTrueThrowException(!orcamento.isPresent(), RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
+        ifTrueThrowException(!orcamento.isPresent(),
+                RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
 
         Orcamento orcamentoConcluido = orcamento.get();
 
@@ -99,12 +198,22 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 
     }
 
+    /**
+     * Altera a situacao de um Orcamento para cancelado.
+     *
+     * @return o orçamento alterado
+     * @author Liendson Douglas
+     */
     @Override
     public OrcamentoDTO cancelarOrcamento(Integer idOrcamento) throws CustomException {
 
+        ifTrueThrowException(Objects.isNull(idOrcamento),
+                RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
+
         Optional<Orcamento> orcamento = orcamentoRepository.findById(idOrcamento);
 
-        ifTrueThrowException(!orcamento.isPresent(), RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
+        ifTrueThrowException(!orcamento.isPresent(),
+                RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
 
         Orcamento servicoCancelado = orcamento.get();
 
@@ -116,5 +225,21 @@ public class OrcamentoServiceImpl implements OrcamentoService {
         orcamentoRepository.save(servicoCancelado);
         return modelMapper.map(servicoCancelado, OrcamentoDTO.class);
 
+    }
+
+    /**
+     * Consulta um ou mais orçamentos de acordo com os filtos passados.
+     *
+     * @return a lista de orcamentos encontrados
+     * @author Liendson Douglas
+     */
+    @Override
+    public List<OrcamentoDTO> consultarOrcamentos(OrcamentoDTO orcamentoDTO) throws CustomException {
+
+        List<OrcamentoDTO> listaTodosOrcamentosDTO = new ArrayList<>();
+
+        // TODO: filtrar e realizar consulta
+
+        return listaTodosOrcamentosDTO;
     }
 }

@@ -15,7 +15,8 @@ public class Servico {
 
     @Id
     @Column(name = "IDSERVICO")
-    int idServico;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long idServico;
 
     @Column(name = "SITSERVICO")
     SituacaoEnum situacaoServico;

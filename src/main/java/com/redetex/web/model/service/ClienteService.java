@@ -17,4 +17,6 @@ public interface ClienteService {
 
     ClienteDTO salvarCliente(ClienteDTO cliente);
 
+    ClienteDTO ativarCliente(Integer idCliente) throws CustomException;
+
 }

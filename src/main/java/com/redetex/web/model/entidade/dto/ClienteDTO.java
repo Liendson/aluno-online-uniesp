@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ClienteDTO {
 
-    int idCliente;
+    Long idCliente;
     String nomeCliente;
     String telefoneCliente;
     SituacaoClienteEnum situacao;
 
     @Builder
     public ClienteDTO(
-        int idCliente,
+        Long idCliente,
         String nomeCliente,
         String telefoneCliente,
         SituacaoClienteEnum situacao

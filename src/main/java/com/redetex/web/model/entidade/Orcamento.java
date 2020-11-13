@@ -15,7 +15,8 @@ public class Orcamento {
 
     @Id
     @Column(name = "IDORCAMENTO")
-    int idOrcamento;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long idOrcamento;
 
     @Column(name = "TPORCAMENTO")
     TipoEnum tipoOrcamento;
@@ -32,7 +33,7 @@ public class Orcamento {
     Endereco enderecoOrcamento;
 
     @OneToOne
-    @JoinColumn(name = "MEDIDASORCAMENTO", nullable = false)
+    @JoinColumn(name = "MEDIDASORCAMENTO")
     Medida medidasOrcamento;
 
     @Column(name = "VALORORCAMENTO")

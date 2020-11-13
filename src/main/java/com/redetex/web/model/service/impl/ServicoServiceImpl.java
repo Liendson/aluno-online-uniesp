@@ -57,7 +57,7 @@ public class ServicoServiceImpl implements ServicoService {
     @Override
     public ServicoDTO salvarServico(ServicoDTO servicoDTO) throws CustomException {
 
-        Optional<Servico> servico = servicoRepository.findById(servicoDTO.getIdServico());
+        Optional<Servico> servico = servicoRepository.findById(servicoDTO.getIdServico().intValue());
 
         ifTrueThrowException(!servico.isPresent(), RedetexValidacoes.ERRO_SERVICO_NAO_EXISTE);
 

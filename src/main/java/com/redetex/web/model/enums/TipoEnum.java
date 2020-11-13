@@ -7,11 +7,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum TipoEnum {
-    REDE(1, "REDE"),
-    PERSIANA(2, "PERSIANA"),
-    CORTINA(3, "CORTINA"),
-    TELA(4, "TELA"),
-    BOX(5, "BOX");
+    REDE(0, "REDE"),
+    PERSIANA(1, "PERSIANA"),
+    CORTINA(2, "CORTINA"),
+    TELA(3, "TELA"),
+    BOX(4, "BOX");
 
     private final Integer id;
     private final String tipo;

@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class ServicoDTO {
 
-    int idServico;
+    Long idServico;
     SituacaoEnum situacaoServico;
     Orcamento orcamentoServico;
     Date dataInstalacaoServico;
@@ -20,7 +20,7 @@ public class ServicoDTO {
 
     @Builder
     public ServicoDTO(
-        int idServico,
+        Long idServico,
         SituacaoEnum situacaoServico,
         Orcamento orcamentoServico,
         Date dataInstalacaoServico,

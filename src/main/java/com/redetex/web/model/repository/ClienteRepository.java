@@ -12,13 +12,9 @@ import java.util.List;
 @Transactional
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
-//    Cliente findByIdCliente(Long idCliente);
-
-//    Cliente salvar(Cliente cliente);
-
-//    Cliente cancelar(Cliente cliente);
-
-    @Query(value = "SELECT * FROM TB_CLIENTES;", nativeQuery = true)
     List<Cliente> findAll();
+
+    @Query(value = "SELECT * FROM TB_CLIENTES WHERE SITCLIENTE IN (0);", nativeQuery = true)
+    List<Cliente> findAllClientesAtivos();
 
 }

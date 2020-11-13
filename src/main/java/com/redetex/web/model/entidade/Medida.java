@@ -13,7 +13,8 @@ public class Medida {
 
     @Id
     @Column(name = "IDMEDIDA")
-    int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
     @Column(name = "LARGURA")
     Float largura;

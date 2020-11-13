@@ -34,4 +34,9 @@ public class ClientesController {
     public ResponseEntity<ClienteDTO> cancelarCliente(@PathVariable Integer idCliente) throws CustomException {
         return ResponseEntity.ok(clienteService.cancelarCliente(idCliente));
     }
+
+    @GetMapping(value = "/ativar/{idCliente}")
+    public ResponseEntity<ClienteDTO> ativarCliente(@PathVariable Integer idCliente) throws CustomException {
+        return ResponseEntity.ok(clienteService.ativarCliente(idCliente));
+    }
 }
