@@ -71,7 +71,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
      * @author Liendson Douglas
      */
     @Override
-    public OrcamentoDTO detalharOrcamento(Integer id) throws CustomException {
+    public OrcamentoDTO detalharOrcamento(Long id) throws CustomException {
 
         ifTrueThrowException(Objects.isNull(id),
                 RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
@@ -96,15 +96,15 @@ public class OrcamentoServiceImpl implements OrcamentoService {
     @Override
     public OrcamentoDTO salvarOrcamento(OrcamentoDTO orcamentoDTO) throws CustomException {
 
-        ifTrueThrowException(Objects.isNull(orcamentoDTO.getIdOrcamento()),
-                RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
+        if (Objects.nonNull(orcamentoDTO.getIdOrcamento())) {
+            Optional<Orcamento> orcamento =
+                    orcamentoRepository.findById(orcamentoDTO.getIdOrcamento());
 
-        Optional<Orcamento> orcamento =
-                orcamentoRepository.findById(orcamentoDTO.getIdOrcamento().intValue());
+            return alterarOrcamento(orcamento.get(), orcamentoDTO);
 
-        return orcamento.isPresent()
-            ? alterarOrcamento(orcamento.get(), orcamentoDTO)
-            : incluirOrcamento(orcamentoDTO);
+        }
+
+        return incluirOrcamento(orcamentoDTO);
 
     }
 
@@ -176,7 +176,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
      * @author Liendson Douglas
      */
     @Override
-    public OrcamentoDTO concluirOrcamento(Integer idOrcamento) throws CustomException {
+    public OrcamentoDTO concluirOrcamento(Long idOrcamento) throws CustomException {
 
         ifTrueThrowException(Objects.isNull(idOrcamento),
                 RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
@@ -205,7 +205,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
      * @author Liendson Douglas
      */
     @Override
-    public OrcamentoDTO cancelarOrcamento(Integer idOrcamento) throws CustomException {
+    public OrcamentoDTO cancelarOrcamento(Long idOrcamento) throws CustomException {
 
         ifTrueThrowException(Objects.isNull(idOrcamento),
                 RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);

@@ -12,8 +12,8 @@ public interface OrcamentoService {
     List<OrcamentoDTO> listarTodosOrcamentos();
     List<OrcamentoDTO> consultarOrcamentos(OrcamentoDTO orcamentoDTO) throws CustomException;
 
-    OrcamentoDTO detalharOrcamento(Integer idOrcamento) throws CustomException;
+    OrcamentoDTO detalharOrcamento(Long idOrcamento) throws CustomException;
     OrcamentoDTO salvarOrcamento(OrcamentoDTO orcamento) throws CustomException;
-    OrcamentoDTO concluirOrcamento(Integer idOrcamento) throws CustomException;
-    OrcamentoDTO cancelarOrcamento(Integer idOrcamento) throws CustomException;
+    OrcamentoDTO concluirOrcamento(Long idOrcamento) throws CustomException;
+    OrcamentoDTO cancelarOrcamento(Long idOrcamento) throws CustomException;
 }

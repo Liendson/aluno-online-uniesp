@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrcamentoRepository extends JpaRepository<Orcamento, Integer> {
+public interface OrcamentoRepository extends JpaRepository<Orcamento, Long> {
 
     List<Orcamento> findAll();
 
