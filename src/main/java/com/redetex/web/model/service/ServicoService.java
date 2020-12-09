@@ -10,12 +10,10 @@ import java.util.List;
 public interface ServicoService {
 
     List<ServicoDTO> listarTodosServicos();
+    List<ServicoDTO> consultarServicos(ServicoDTO servicoDTO) throws CustomException;
 
-    ServicoDTO listarServico(Integer idServico);
-
+    ServicoDTO detalharServico(Integer idServico);
     ServicoDTO salvarServico(ServicoDTO servico) throws CustomException;
-
     ServicoDTO concluirServico(Integer idServico) throws CustomException;
-
     ServicoDTO cancelarServico(Integer idServico) throws CustomException;
 }

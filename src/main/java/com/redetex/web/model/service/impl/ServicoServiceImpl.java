@@ -1,7 +1,10 @@
 package com.redetex.web.model.service.impl;
 
 import static com.redetex.web.model.exception.DefaultException.*;
+
+import com.redetex.web.model.entidade.Orcamento;
 import com.redetex.web.model.entidade.Servico;
+import com.redetex.web.model.entidade.dto.OrcamentoDTO;
 import com.redetex.web.model.entidade.dto.ServicoDTO;
 import com.redetex.web.model.enums.SituacaoEnum;
 import com.redetex.web.model.exception.CustomException;
@@ -22,6 +25,12 @@ public class ServicoServiceImpl implements ServicoService {
     @Autowired private ServicoRepository servicoRepository;
     @Autowired private ModelMapper modelMapper;
 
+    /**
+     * Lista todos os Servicos ativos.
+     *
+     * @return uma lista contendo todos os servicos
+     * @author Liendson Douglas
+     */
     @Override
     public List<ServicoDTO> listarTodosServicos() {
 
@@ -44,8 +53,14 @@ public class ServicoServiceImpl implements ServicoService {
         return listaTodosServicosDTO;
     }
 
+    /**
+     * Detalha os dados de um Serviço.
+     *
+     * @return os dados do serviço detalhado ou um serviço vazio
+     * @author Liendson Douglas
+     */
     @Override
-    public ServicoDTO listarServico(Integer idServico) {
+    public ServicoDTO detalharServico(Integer idServico) {
 
         Optional<Servico> servico = servicoRepository.findById(idServico);
 
@@ -54,6 +69,12 @@ public class ServicoServiceImpl implements ServicoService {
                 : modelMapper.map(servico.get(), ServicoDTO.class);
     }
 
+    /**
+     * Altera ou insere um Servico.
+     *
+     * @return o servico incluído ou alterado
+     * @author Liendson Douglas
+     */
     @Override
     public ServicoDTO salvarServico(ServicoDTO servicoDTO) throws CustomException {
 
@@ -71,6 +92,12 @@ public class ServicoServiceImpl implements ServicoService {
         return modelMapper.map(servicoAlterado, ServicoDTO.class);
     }
 
+    /**
+     * Altera a situacao de um servico para 'Concluído'.
+     *
+     * @return o servico concluído
+     * @author Liendson Douglas
+     */
     @Override
     public ServicoDTO concluirServico(Integer idServico) throws CustomException {
 
@@ -89,6 +116,12 @@ public class ServicoServiceImpl implements ServicoService {
         return modelMapper.map(servicoConcluido, ServicoDTO.class);
     }
 
+    /**
+     * Altera a situacao de um servico para 'Cancelado'.
+     *
+     * @return o servico cancelado
+     * @author Liendson Douglas
+     */
     @Override
     public ServicoDTO cancelarServico(Integer idServico) throws CustomException {
 
@@ -105,5 +138,21 @@ public class ServicoServiceImpl implements ServicoService {
         servicoCancelado.setSituacaoServico(SituacaoEnum.CANCELADO);
         servicoRepository.save(servicoCancelado);
         return modelMapper.map(servicoCancelado, ServicoDTO.class);
+    }
+
+    /**
+     * Consulta um ou mais servicos de acordo com os filtos passados..
+     *
+     * @return a lista de servicos encontrados
+     * @author Liendson Douglas
+     */
+    @Override
+    public List<ServicoDTO> consultarServicos(ServicoDTO servicoDTO) throws CustomException {
+
+        List<ServicoDTO> listaTodosServicosDTO = new ArrayList<>();
+
+        // TODO: filtrar e realizar consulta
+
+        return listaTodosServicosDTO;
     }
 }

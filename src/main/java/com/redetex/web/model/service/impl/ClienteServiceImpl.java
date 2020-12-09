@@ -58,7 +58,7 @@ public class ClienteServiceImpl implements ClienteService {
      * @author Liendson Douglas
      */
     @Override
-    public ClienteDTO listarCliente(Integer idCliente) {
+    public ClienteDTO detalharCliente(Integer idCliente) {
 
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
 
@@ -68,9 +68,9 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     /**
+     * Salva o cliente
      *
-     *
-     * @return
+     * @return o cliente salvo
      * @author Liendson Douglas
      */
     @Override
@@ -88,9 +88,9 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     /**
+     * Cancela o cliente, mudando a situacao para 'Cancelado'
      *
-     *
-     * @return
+     * @return o cliente cancelado
      * @author Liendson Douglas
      */
     @Override
@@ -112,9 +112,9 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     /**
+     * Ativa o cliente, mudando a situação para 'Ativo'
      *
-     *
-     * @return
+     * @return o cliente ativado
      * @author Liendson Douglas
      */
     @Override
@@ -133,6 +133,22 @@ public class ClienteServiceImpl implements ClienteService {
         clienteRepository.save(clienteCancelado);
         return modelMapper.map(clienteCancelado, ClienteDTO.class);
 
+    }
+
+    /**
+     * Consulta um ou mais clientes de acordo com os filtos passados.
+     *
+     * @return a lista de clientes encontrados
+     * @author Liendson Douglas
+     */
+    @Override
+    public List<ClienteDTO> consultarClientes(ClienteDTO clienteDTO) throws CustomException {
+
+        List<ClienteDTO> listaTodosClientesDTO = new ArrayList<>();
+
+        // TODO: filtrar e realizar consulta
+
+        return listaTodosClientesDTO;
     }
 
 }

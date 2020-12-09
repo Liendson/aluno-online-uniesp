@@ -22,7 +22,7 @@ public class ServicosController {
 
     @GetMapping(value = "/buscar/{idServico}")
     public ResponseEntity<ServicoDTO> buscarServico(@PathVariable Integer idServico) {
-        return ResponseEntity.ok(servicoService.listarServico(idServico));
+        return ResponseEntity.ok(servicoService.detalharServico(idServico));
     }
 
     @PostMapping(value = "/salvar")

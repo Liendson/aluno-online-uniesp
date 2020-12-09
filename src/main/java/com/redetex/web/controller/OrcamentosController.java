@@ -22,7 +22,7 @@ public class OrcamentosController {
 
     @GetMapping(value = "/buscar/{idOrcamento}")
     public ResponseEntity<OrcamentoDTO> buscarOrcamento(@PathVariable Integer idOrcamento) throws CustomException {
-        return ResponseEntity.ok(orcamentoService.listarOrcamento(idOrcamento));
+        return ResponseEntity.ok(orcamentoService.detalharOrcamento(idOrcamento));
     }
 
     @PostMapping(value = "/salvar")

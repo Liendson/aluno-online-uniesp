@@ -10,14 +10,10 @@ import java.util.List;
 public interface OrcamentoService {
 
     List<OrcamentoDTO> listarTodosOrcamentos();
-
-    OrcamentoDTO listarOrcamento(Integer idOrcamento) throws CustomException;
-
-    OrcamentoDTO salvarOrcamento(OrcamentoDTO orcamento) throws CustomException;
-
-    OrcamentoDTO concluirOrcamento(Integer idOrcamento) throws CustomException;
-
-    OrcamentoDTO cancelarOrcamento(Integer idOrcamento) throws CustomException;
-
     List<OrcamentoDTO> consultarOrcamentos(OrcamentoDTO orcamentoDTO) throws CustomException;
+
+    OrcamentoDTO detalharOrcamento(Integer idOrcamento) throws CustomException;
+    OrcamentoDTO salvarOrcamento(OrcamentoDTO orcamento) throws CustomException;
+    OrcamentoDTO concluirOrcamento(Integer idOrcamento) throws CustomException;
+    OrcamentoDTO cancelarOrcamento(Integer idOrcamento) throws CustomException;
 }

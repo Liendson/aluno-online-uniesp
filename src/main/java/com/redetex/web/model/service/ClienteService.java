@@ -10,13 +10,11 @@ import java.util.List;
 public interface ClienteService {
 
     List<ClienteDTO> listarTodosClientes();
+    List<ClienteDTO> consultarClientes(ClienteDTO clienteDTO) throws CustomException;
 
-    ClienteDTO listarCliente(Integer idCliente);
-
-    ClienteDTO cancelarCliente(Integer idCliente) throws CustomException;
-
+    ClienteDTO detalharCliente(Integer idCliente);
     ClienteDTO salvarCliente(ClienteDTO cliente);
-
+    ClienteDTO cancelarCliente(Integer idCliente) throws CustomException;
     ClienteDTO ativarCliente(Integer idCliente) throws CustomException;
 
 }

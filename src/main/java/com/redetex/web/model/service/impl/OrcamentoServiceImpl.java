@@ -71,7 +71,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
      * @author Liendson Douglas
      */
     @Override
-    public OrcamentoDTO listarOrcamento(Integer id) throws CustomException {
+    public OrcamentoDTO detalharOrcamento(Integer id) throws CustomException {
 
         ifTrueThrowException(Objects.isNull(id),
                 RedetexValidacoes.ERRO_ORCAMENTO_NAO_EXISTE);
