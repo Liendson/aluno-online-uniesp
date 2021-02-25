@@ -8,8 +8,4 @@ public class DefaultException extends RuntimeException {
         if (condition) { throw new CustomException(errorMessage); }
     }
 
-    public static void throwException(RedetexValidacoes errorMessage) throws CustomException {
-        throw new CustomException(errorMessage);
-    }
-
 }

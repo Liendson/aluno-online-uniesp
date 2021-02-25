@@ -58,7 +58,7 @@ public class ClienteServiceImpl implements ClienteService {
      * @author Liendson Douglas
      */
     @Override
-    public ClienteDTO detalharCliente(Integer idCliente) {
+    public ClienteDTO detalharCliente(Long idCliente) {
 
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
 
@@ -76,7 +76,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ClienteDTO salvarCliente(ClienteDTO clienteDTO) {
 
-        Optional<Cliente> cliente = clienteRepository.findById(clienteDTO.getIdCliente().intValue());
+        Optional<Cliente> cliente = clienteRepository.findById(clienteDTO.getIdCliente());
 
         Cliente clienteAlterado = cliente.orElseGet(Cliente::new);
         clienteAlterado.setNomeCliente(clienteDTO.getNomeCliente());
@@ -94,7 +94,7 @@ public class ClienteServiceImpl implements ClienteService {
      * @author Liendson Douglas
      */
     @Override
-    public ClienteDTO cancelarCliente(Integer idCliente) throws CustomException {
+    public ClienteDTO cancelarCliente(Long idCliente) throws CustomException {
 
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
 
@@ -118,7 +118,7 @@ public class ClienteServiceImpl implements ClienteService {
      * @author Liendson Douglas
      */
     @Override
-    public ClienteDTO ativarCliente(Integer idCliente) throws CustomException {
+    public ClienteDTO ativarCliente(Long idCliente) throws CustomException {
 
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
 

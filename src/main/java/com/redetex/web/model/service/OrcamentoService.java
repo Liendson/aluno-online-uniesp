@@ -1,5 +1,6 @@
 package com.redetex.web.model.service;
 
+import com.redetex.web.model.entidade.Orcamento;
 import com.redetex.web.model.entidade.dto.OrcamentoDTO;
 import com.redetex.web.model.exception.CustomException;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface OrcamentoService {
 
     List<OrcamentoDTO> listarTodosOrcamentos();
-    List<OrcamentoDTO> consultarOrcamentos(OrcamentoDTO orcamentoDTO) throws CustomException;
+    List<Orcamento> consultarOrcamentos(Orcamento orcamento) throws CustomException;
 
     OrcamentoDTO detalharOrcamento(Long idOrcamento) throws CustomException;
     OrcamentoDTO salvarOrcamento(OrcamentoDTO orcamento) throws CustomException;

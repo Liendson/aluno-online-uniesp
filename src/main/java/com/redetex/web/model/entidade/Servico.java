@@ -1,6 +1,7 @@
 package com.redetex.web.model.entidade;
 
 import com.redetex.web.model.enums.SituacaoEnum;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,5 +31,20 @@ public class Servico {
 
     @Column(name = "OBSSERVICO")
     String observacaoServico;
+
+    @Builder
+    public Servico(
+        Long idServico,
+        SituacaoEnum situacaoServico,
+        Orcamento orcamentoServico,
+        Date dataInstalacaoServico,
+        String observacaoServico
+    ) {
+        this.idServico = idServico;
+        this.situacaoServico = situacaoServico;
+        this.orcamentoServico = orcamentoServico;
+        this.dataInstalacaoServico = dataInstalacaoServico;
+        this.observacaoServico = observacaoServico;
+    }
 
 }

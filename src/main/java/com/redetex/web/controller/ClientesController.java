@@ -21,7 +21,7 @@ public class ClientesController {
     }
 
     @GetMapping(value = "/buscar/{idCliente}")
-    public ResponseEntity<ClienteDTO> buscarCliente(@PathVariable Integer idCliente) {
+    public ResponseEntity<ClienteDTO> buscarCliente(@PathVariable Long idCliente) {
         return ResponseEntity.ok(clienteService.detalharCliente(idCliente));
     }
 
@@ -31,12 +31,17 @@ public class ClientesController {
     }
 
     @GetMapping(value = "/cancelar/{idCliente}")
-    public ResponseEntity<ClienteDTO> cancelarCliente(@PathVariable Integer idCliente) throws CustomException {
+    public ResponseEntity<ClienteDTO> cancelarCliente(@PathVariable Long idCliente) throws CustomException {
         return ResponseEntity.ok(clienteService.cancelarCliente(idCliente));
     }
 
     @GetMapping(value = "/ativar/{idCliente}")
-    public ResponseEntity<ClienteDTO> ativarCliente(@PathVariable Integer idCliente) throws CustomException {
+    public ResponseEntity<ClienteDTO> ativarCliente(@PathVariable Long idCliente) throws CustomException {
         return ResponseEntity.ok(clienteService.ativarCliente(idCliente));
+    }
+
+    @PostMapping(value = "/consultar")
+    public ResponseEntity<List<ClienteDTO>> consultarCliente(@PathVariable ClienteDTO clienteDTO) throws CustomException {
+        return ResponseEntity.ok(clienteService.consultarClientes(clienteDTO));
     }
 }

@@ -14,6 +14,8 @@ import com.redetex.web.model.service.OrcamentoService;
 import com.redetex.web.model.utilities.RedetexValidacoes;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -121,7 +123,7 @@ public class OrcamentoServiceImpl implements OrcamentoService {
 
         if (Objects.nonNull(orcamentoDTO.getClienteOrcamento().getIdCliente())) {
             Optional<Cliente> cliente =
-                    clienteRepository.findById(orcamentoDTO.getClienteOrcamento().getIdCliente().intValue());
+                    clienteRepository.findById(orcamentoDTO.getClienteOrcamento().getIdCliente());
             orcamentoIncluido.setClienteOrcamento(cliente.get());
         } else {
             orcamentoDTO.getClienteOrcamento().setSituacao(SituacaoClienteEnum.ATIVO);
@@ -234,12 +236,16 @@ public class OrcamentoServiceImpl implements OrcamentoService {
      * @author Liendson Douglas
      */
     @Override
-    public List<OrcamentoDTO> consultarOrcamentos(OrcamentoDTO orcamentoDTO) throws CustomException {
+    public List<Orcamento> consultarOrcamentos(Orcamento orcamento) throws CustomException {
 
-        List<OrcamentoDTO> listaTodosOrcamentosDTO = new ArrayList<>();
+        ifTrueThrowException(Objects.isNull(orcamento), RedetexValidacoes.ALERTA_PREENCHA_UM_CAMPO);
 
-        // TODO: filtrar e realizar consulta
+        ExampleMatcher customExampleMatcher =
+            ExampleMatcher.matching()
+                .withMatcher("situacaoOrcamento",
+                    ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
-        return listaTodosOrcamentosDTO;
+        return orcamentoRepository.findAll(Example.of(orcamento, customExampleMatcher));
+
     }
 }

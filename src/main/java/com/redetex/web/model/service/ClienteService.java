@@ -12,9 +12,9 @@ public interface ClienteService {
     List<ClienteDTO> listarTodosClientes();
     List<ClienteDTO> consultarClientes(ClienteDTO clienteDTO) throws CustomException;
 
-    ClienteDTO detalharCliente(Integer idCliente);
+    ClienteDTO detalharCliente(Long idCliente);
     ClienteDTO salvarCliente(ClienteDTO cliente);
-    ClienteDTO cancelarCliente(Integer idCliente) throws CustomException;
-    ClienteDTO ativarCliente(Integer idCliente) throws CustomException;
+    ClienteDTO cancelarCliente(Long idCliente) throws CustomException;
+    ClienteDTO ativarCliente(Long idCliente) throws CustomException;
 
 }

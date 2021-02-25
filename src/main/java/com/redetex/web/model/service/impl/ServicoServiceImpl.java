@@ -1,10 +1,6 @@
 package com.redetex.web.model.service.impl;
 
-import static com.redetex.web.model.exception.DefaultException.*;
-
-import com.redetex.web.model.entidade.Orcamento;
 import com.redetex.web.model.entidade.Servico;
-import com.redetex.web.model.entidade.dto.OrcamentoDTO;
 import com.redetex.web.model.entidade.dto.ServicoDTO;
 import com.redetex.web.model.enums.SituacaoEnum;
 import com.redetex.web.model.exception.CustomException;
@@ -13,11 +9,17 @@ import com.redetex.web.model.service.ServicoService;
 import com.redetex.web.model.utilities.RedetexValidacoes;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.redetex.web.model.exception.DefaultException.ifTrueThrowException;
 
 @Service
 public class ServicoServiceImpl implements ServicoService {
@@ -35,7 +37,7 @@ public class ServicoServiceImpl implements ServicoService {
     public List<ServicoDTO> listarTodosServicos() {
 
         List<ServicoDTO> listaTodosServicosDTO = new ArrayList<>();
-        List<Servico> listaTodosServicos = servicoRepository.findAll();
+        List<Servico> listaTodosServicos = servicoRepository.findAllServicosAtivos();
 
         listaTodosServicos.forEach(servico ->
             listaTodosServicosDTO.add(
@@ -60,7 +62,7 @@ public class ServicoServiceImpl implements ServicoService {
      * @author Liendson Douglas
      */
     @Override
-    public ServicoDTO detalharServico(Integer idServico) {
+    public ServicoDTO detalharServico(Long idServico) {
 
         Optional<Servico> servico = servicoRepository.findById(idServico);
 
@@ -78,7 +80,7 @@ public class ServicoServiceImpl implements ServicoService {
     @Override
     public ServicoDTO salvarServico(ServicoDTO servicoDTO) throws CustomException {
 
-        Optional<Servico> servico = servicoRepository.findById(servicoDTO.getIdServico().intValue());
+        Optional<Servico> servico = servicoRepository.findById(servicoDTO.getIdServico());
 
         ifTrueThrowException(!servico.isPresent(), RedetexValidacoes.ERRO_SERVICO_NAO_EXISTE);
 
@@ -99,7 +101,7 @@ public class ServicoServiceImpl implements ServicoService {
      * @author Liendson Douglas
      */
     @Override
-    public ServicoDTO concluirServico(Integer idServico) throws CustomException {
+    public ServicoDTO concluirServico(Long idServico) throws CustomException {
 
         Optional<Servico> servico = servicoRepository.findById(idServico);
 
@@ -123,7 +125,7 @@ public class ServicoServiceImpl implements ServicoService {
      * @author Liendson Douglas
      */
     @Override
-    public ServicoDTO cancelarServico(Integer idServico) throws CustomException {
+    public ServicoDTO cancelarServico(Long idServico) throws CustomException {
 
         Optional<Servico> servico = servicoRepository.findById(idServico);
 
@@ -141,18 +143,22 @@ public class ServicoServiceImpl implements ServicoService {
     }
 
     /**
-     * Consulta um ou mais servicos de acordo com os filtos passados..
+     * Consulta um ou mais servicos de acordo com os filtos passados.
      *
      * @return a lista de servicos encontrados
      * @author Liendson Douglas
      */
     @Override
-    public List<ServicoDTO> consultarServicos(ServicoDTO servicoDTO) throws CustomException {
+    public List<Servico> consultarServicos(Servico servico) throws CustomException {
 
-        List<ServicoDTO> listaTodosServicosDTO = new ArrayList<>();
+        ifTrueThrowException(Objects.isNull(servico), RedetexValidacoes.ALERTA_PREENCHA_UM_CAMPO);
 
-        // TODO: filtrar e realizar consulta
+        ExampleMatcher customExampleMatcher =
+            ExampleMatcher.matching()
+                .withMatcher("situacaoServico",
+                    ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
-        return listaTodosServicosDTO;
+        return servicoRepository.findAll(Example.of(servico, customExampleMatcher));
+
     }
 }

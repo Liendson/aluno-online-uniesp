@@ -10,7 +10,7 @@ public enum RedetexValidacoes {
     ERRO_SITUACAO_INVALIDA("Situação Inválida!"),
 
     // Mensagens de Alerta
-    ALERTA_001("Alerta");
+    ALERTA_PREENCHA_UM_CAMPO("Preencha no mínimo um campo para consultar!");
 
     private String textoErro;
 

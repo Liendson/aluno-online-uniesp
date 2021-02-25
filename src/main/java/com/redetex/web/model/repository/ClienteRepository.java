@@ -10,11 +10,9 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
+public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    List<Cliente> findAll();
-
-    @Query(value = "SELECT * FROM TB_CLIENTES WHERE SITCLIENTE IN (0);", nativeQuery = true)
+    @Query(value = "SELECT * FROM TB_CLIENTES WHERE SITCLIENTE IN (1);", nativeQuery = true)
     List<Cliente> findAllClientesAtivos();
 
 }
