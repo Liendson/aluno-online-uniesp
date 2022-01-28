@@ -14,4 +14,13 @@ public enum SituacaoEnum {
 
     private final Integer id;
     private final String situacao;
+
+    public static SituacaoEnum getValueOf(String id) {
+        for (SituacaoEnum tp : SituacaoEnum.values()) {
+            if (tp.getId().toString().equals(id)) {
+                return tp;
+            }
+        }
+        return null;
+    }
 }

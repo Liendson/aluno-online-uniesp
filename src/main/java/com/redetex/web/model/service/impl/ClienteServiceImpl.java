@@ -9,10 +9,13 @@ import com.redetex.web.model.service.ClienteService;
 import com.redetex.web.model.utilities.RedetexValidacoes;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.redetex.web.model.exception.DefaultException.ifTrueThrowException;
@@ -20,8 +23,10 @@ import static com.redetex.web.model.exception.DefaultException.ifTrueThrowExcept
 @Service
 public class ClienteServiceImpl implements ClienteService {
 
-    @Autowired private ClienteRepository clienteRepository;
-    @Autowired private ModelMapper modelMapper;
+    @Autowired
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     /**
      * Lista todos os Clientes ativos.
@@ -36,15 +41,15 @@ public class ClienteServiceImpl implements ClienteService {
         List<Cliente> listaTodosClientes = clienteRepository.findAllClientesAtivos();
 
         listaTodosClientes.forEach(cliente ->
-            listaTodosClientesDTO.add(
-                ClienteDTO
-                    .builder()
-                    .idCliente(cliente.getIdCliente())
-                    .nomeCliente(cliente.getNomeCliente())
-                    .telefoneCliente(cliente.getTelefoneCliente())
-                    .situacao(cliente.getSituacao())
-                    .build()
-            )
+                listaTodosClientesDTO.add(
+                        ClienteDTO
+                                .builder()
+                                .idCliente(cliente.getIdCliente())
+                                .nomeCliente(cliente.getNomeCliente())
+                                .telefoneCliente(cliente.getTelefoneCliente())
+                                .situacao(cliente.getSituacaoCliente())
+                                .build()
+                )
         );
 
         return listaTodosClientesDTO;
@@ -80,7 +85,7 @@ public class ClienteServiceImpl implements ClienteService {
 
         Cliente clienteAlterado = cliente.orElseGet(Cliente::new);
         clienteAlterado.setNomeCliente(clienteDTO.getNomeCliente());
-        clienteAlterado.setSituacao(clienteDTO.getSituacao());
+        clienteAlterado.setSituacaoCliente(clienteDTO.getSituacao());
         clienteAlterado.setTelefoneCliente(clienteDTO.getTelefoneCliente());
         clienteRepository.save(clienteAlterado);
         return modelMapper.map(clienteAlterado, ClienteDTO.class);
@@ -102,10 +107,10 @@ public class ClienteServiceImpl implements ClienteService {
 
         Cliente clienteCancelado = cliente.get();
 
-        ifTrueThrowException(clienteCancelado.getSituacao().equals(SituacaoClienteEnum.CANCELADO),
+        ifTrueThrowException(Objects.equals(clienteCancelado.getSituacaoCliente(), SituacaoClienteEnum.CANCELADO),
                 RedetexValidacoes.ERRO_SITUACAO_INVALIDA);
 
-        clienteCancelado.setSituacao(SituacaoClienteEnum.CANCELADO);
+        clienteCancelado.setSituacaoCliente(SituacaoClienteEnum.CANCELADO);
         clienteRepository.save(clienteCancelado);
         return modelMapper.map(clienteCancelado, ClienteDTO.class);
 
@@ -126,10 +131,10 @@ public class ClienteServiceImpl implements ClienteService {
 
         Cliente clienteCancelado = cliente.get();
 
-        ifTrueThrowException(clienteCancelado.getSituacao().equals(SituacaoClienteEnum.ATIVO),
+        ifTrueThrowException(Objects.equals(clienteCancelado.getSituacaoCliente(), SituacaoClienteEnum.ATIVO),
                 RedetexValidacoes.ERRO_SITUACAO_INVALIDA);
 
-        clienteCancelado.setSituacao(SituacaoClienteEnum.ATIVO);
+        clienteCancelado.setSituacaoCliente(SituacaoClienteEnum.ATIVO);
         clienteRepository.save(clienteCancelado);
         return modelMapper.map(clienteCancelado, ClienteDTO.class);
 
@@ -142,13 +147,16 @@ public class ClienteServiceImpl implements ClienteService {
      * @author Liendson Douglas
      */
     @Override
-    public List<ClienteDTO> consultarClientes(ClienteDTO clienteDTO) throws CustomException {
+    public List<Cliente> consultarClientes(Cliente cliente) throws CustomException {
 
-        List<ClienteDTO> listaTodosClientesDTO = new ArrayList<>();
+        ifTrueThrowException(Objects.isNull(cliente), RedetexValidacoes.ALERTA_PREENCHA_UM_CAMPO);
 
-        // TODO: filtrar e realizar consulta
+        ExampleMatcher customExampleMatcher =
+                ExampleMatcher.matching()
+                        .withMatcher("situacaoOrcamento",
+                                ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
-        return listaTodosClientesDTO;
+        return clienteRepository.findAll(Example.of(cliente, customExampleMatcher));
     }
 
 }

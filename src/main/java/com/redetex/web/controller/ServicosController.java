@@ -1,6 +1,5 @@
 package com.redetex.web.controller;
 
-import com.redetex.web.model.entidade.Orcamento;
 import com.redetex.web.model.entidade.Servico;
 import com.redetex.web.model.entidade.dto.ServicoDTO;
 import com.redetex.web.model.enums.SituacaoEnum;
@@ -17,7 +16,8 @@ import java.util.List;
 @RequestMapping("/servicos")
 public class ServicosController {
 
-    @Autowired private ServicoService servicoService;
+    @Autowired
+    private ServicoService servicoService;
 
     @GetMapping(value = "/buscar")
     public ResponseEntity<List<ServicoDTO>> buscarTodosServicos() {
@@ -46,16 +46,16 @@ public class ServicosController {
 
     @GetMapping(value = "/consultar")
     public ResponseEntity<List<Servico>> consultarServico(
-        @RequestParam(required = false) Long idServico,
-        @RequestParam(required = false) Long situacaoServico,
-        @RequestParam(required = false) Date dataInstalacaoServico) throws CustomException {
+            @RequestParam(required = false) Long idServico,
+            @RequestParam(required = false) Long situacaoServico,
+            @RequestParam(required = false) Date dataInstalacaoServico) throws CustomException {
 
         Servico servicoDTO =
-            Servico.builder()
-                .idServico(idServico)
-                .dataInstalacaoServico(dataInstalacaoServico)
-                .situacaoServico(SituacaoEnum.valueOf(situacaoServico.toString()))
-                .build();
+                Servico.builder()
+                        .idServico(idServico)
+                        .dataInstalacaoServico(dataInstalacaoServico)
+                        .situacaoServico(SituacaoEnum.valueOf(situacaoServico.toString()))
+                        .build();
 
         return ResponseEntity.ok(servicoService.consultarServicos(servicoDTO));
     }

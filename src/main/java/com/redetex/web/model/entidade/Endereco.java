@@ -1,5 +1,6 @@
 package com.redetex.web.model.entidade;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@Builder
 @Table(name = "TB_ENDERECOS")
 @NoArgsConstructor
 public class Endereco {
@@ -33,5 +35,24 @@ public class Endereco {
 
     @Column(name = "NREDIFICIO")
     int numeroEdificio;
+
+    @Builder
+    public Endereco(
+            Long idEndereco,
+            String nomeRua,
+            String bairro,
+            String cepRua,
+            String nomeEdificio,
+            int apartamentoEdificio,
+            int numeroEdificio
+    ) {
+        this.idEndereco = idEndereco;
+        this.nomeRua = nomeRua;
+        this.bairro = bairro;
+        this.cepRua = cepRua;
+        this.nomeEdificio = nomeEdificio;
+        this.apartamentoEdificio = apartamentoEdificio;
+        this.numeroEdificio = numeroEdificio;
+    }
 
 }

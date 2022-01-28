@@ -1,6 +1,9 @@
 package com.redetex.web.controller;
 
+import com.redetex.web.model.entidade.Cliente;
 import com.redetex.web.model.entidade.dto.ClienteDTO;
+import com.redetex.web.model.enums.SituacaoEnum;
+import com.redetex.web.model.enums.TipoEnum;
 import com.redetex.web.model.exception.CustomException;
 import com.redetex.web.model.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,8 @@ import java.util.List;
 @RequestMapping("/clientes")
 public class ClientesController {
 
-    @Autowired private ClienteService clienteService;
+    @Autowired
+    private ClienteService clienteService;
 
     @GetMapping(value = "/buscar")
     public ResponseEntity<List<ClienteDTO>> buscarTodosClientes() {
@@ -41,7 +45,18 @@ public class ClientesController {
     }
 
     @PostMapping(value = "/consultar")
-    public ResponseEntity<List<ClienteDTO>> consultarCliente(@PathVariable ClienteDTO clienteDTO) throws CustomException {
-        return ResponseEntity.ok(clienteService.consultarClientes(clienteDTO));
+    public ResponseEntity<List<Cliente>> consultarCliente(
+            @RequestParam(required = false) Long idCliente,
+            @RequestParam(required = false) String nomeCliente,
+            @RequestParam(required = false) String telefoneCliente) throws CustomException {
+
+        Cliente cliente =
+                Cliente.builder()
+                        .idCliente(idCliente)
+                        .nomeCliente(nomeCliente)
+                        .telefoneCliente(telefoneCliente)
+                        .build();
+
+        return ResponseEntity.ok(clienteService.consultarClientes(cliente));
     }
 }

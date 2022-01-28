@@ -16,4 +16,10 @@ public interface ServicoRepository extends JpaRepository<Servico, Long> {
     @Query(value = "SELECT * FROM TB_SERVICOS WHERE SITSERVICO IN (1);", nativeQuery = true)
     List<Servico> findAllServicosAtivos();
 
+    @Query(value = "SELECT * FROM TB_SERVICOS WHERE SITSERVICO IN (1);", nativeQuery = true)
+    List<Servico> findAllServicosParaHoje();
+
+    @Query(value = "SELECT * FROM TB_SERVICOS WHERE SITSERVICO IN (1);", nativeQuery = true)
+    List<Servico> findAllServicosParaSemana();
+
 }

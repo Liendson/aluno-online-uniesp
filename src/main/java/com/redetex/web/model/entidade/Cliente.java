@@ -1,6 +1,7 @@
 package com.redetex.web.model.entidade;
 
 import com.redetex.web.model.enums.SituacaoClienteEnum;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,19 @@ public class Cliente {
     String telefoneCliente;
 
     @Column(name = "SITCLIENTE")
-    SituacaoClienteEnum situacao;
+    SituacaoClienteEnum situacaoCliente;
+
+    @Builder
+    public Cliente(
+            Long idCliente,
+            String nomeCliente,
+            String telefoneCliente,
+            SituacaoClienteEnum situacaoCliente
+    ) {
+        this.idCliente = idCliente;
+        this.nomeCliente = nomeCliente;
+        this.telefoneCliente = telefoneCliente;
+        this.situacaoCliente = situacaoCliente;
+    }
 
 }

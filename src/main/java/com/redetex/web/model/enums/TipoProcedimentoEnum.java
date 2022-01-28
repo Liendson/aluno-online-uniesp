@@ -6,19 +6,21 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public enum SituacaoClienteEnum {
-    ATIVO(1, "ATIVO"),
-    CANCELADO(2, "CANCELADO");
+public enum TipoProcedimentoEnum {
+
+    ORCAMENTO(0, "ORCAMENTO"),
+    SERVICO(1, "SERVICO");
 
     private final Integer id;
-    private final String situacao;
+    private final String tipo;
 
-    public static SituacaoClienteEnum getValueOf(String id) {
-        for (SituacaoClienteEnum tp : SituacaoClienteEnum.values()) {
+    public static TipoProcedimentoEnum getValueOf(String id) {
+        for (TipoProcedimentoEnum tp : TipoProcedimentoEnum.values()) {
             if (tp.getId().toString().equals(id)) {
                 return tp;
             }
         }
         return null;
     }
+
 }

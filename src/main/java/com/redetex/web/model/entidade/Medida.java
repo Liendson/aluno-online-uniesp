@@ -1,5 +1,6 @@
 package com.redetex.web.model.entidade;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,5 +25,18 @@ public class Medida {
 
     @Column(name = "MTQUADRADOS")
     Float metrosQuadrados;
+
+    @Builder
+    public Medida(
+            Long id,
+            Float largura,
+            Float altura,
+            Float metrosQuadrados
+    ) {
+        this.id = id;
+        this.largura = largura;
+        this.altura = altura;
+        this.metrosQuadrados = metrosQuadrados;
+    }
 
 }

@@ -17,15 +17,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.redetex.web.model.exception.DefaultException.ifTrueThrowException;
 
 @Service
 public class ServicoServiceImpl implements ServicoService {
 
-    @Autowired private ServicoRepository servicoRepository;
-    @Autowired private ModelMapper modelMapper;
+    @Autowired
+    private ServicoRepository servicoRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Override
+    public ServicoRepository getRepository() {
+        return servicoRepository;
+    }
 
     /**
      * Lista todos os Servicos ativos.
@@ -40,16 +46,16 @@ public class ServicoServiceImpl implements ServicoService {
         List<Servico> listaTodosServicos = servicoRepository.findAllServicosAtivos();
 
         listaTodosServicos.forEach(servico ->
-            listaTodosServicosDTO.add(
-                ServicoDTO
-                    .builder()
-                    .idServico(servico.getIdServico())
-                    .situacaoServico(servico.getSituacaoServico())
-                    .orcamentoServico(servico.getOrcamentoServico())
-                    .dataInstalacaoServico(servico.getDataInstalacaoServico())
-                    .observacaoServico(servico.getObservacaoServico())
-                    .build()
-            )
+                listaTodosServicosDTO.add(
+                        ServicoDTO
+                                .builder()
+                                .idServico(servico.getIdServico())
+                                .situacaoServico(servico.getSituacaoServico())
+                                .orcamentoServico(servico.getOrcamentoServico())
+                                .dataInstalacaoServico(servico.getDataInstalacaoServico())
+                                .observacaoServico(servico.getObservacaoServico())
+                                .build()
+                )
         );
 
         return listaTodosServicosDTO;
@@ -110,7 +116,7 @@ public class ServicoServiceImpl implements ServicoService {
         Servico servicoConcluido = servico.get();
 
         ifTrueThrowException(servicoConcluido.getSituacaoServico().equals(SituacaoEnum.CANCELADO)
-                || servicoConcluido.getSituacaoServico().equals(SituacaoEnum.CONCLUIDO),
+                        || servicoConcluido.getSituacaoServico().equals(SituacaoEnum.CONCLUIDO),
                 RedetexValidacoes.ERRO_SITUACAO_INVALIDA);
 
         servicoConcluido.setSituacaoServico(SituacaoEnum.CONCLUIDO);
@@ -134,7 +140,7 @@ public class ServicoServiceImpl implements ServicoService {
         Servico servicoCancelado = servico.get();
 
         ifTrueThrowException(servicoCancelado.getSituacaoServico().equals(SituacaoEnum.CANCELADO)
-                || servicoCancelado.getSituacaoServico().equals(SituacaoEnum.CONCLUIDO),
+                        || servicoCancelado.getSituacaoServico().equals(SituacaoEnum.CONCLUIDO),
                 RedetexValidacoes.ERRO_SITUACAO_INVALIDA);
 
         servicoCancelado.setSituacaoServico(SituacaoEnum.CANCELADO);
@@ -154,9 +160,9 @@ public class ServicoServiceImpl implements ServicoService {
         ifTrueThrowException(Objects.isNull(servico), RedetexValidacoes.ALERTA_PREENCHA_UM_CAMPO);
 
         ExampleMatcher customExampleMatcher =
-            ExampleMatcher.matching()
-                .withMatcher("situacaoServico",
-                    ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+                ExampleMatcher.matching()
+                        .withMatcher("situacaoServico",
+                                ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
         return servicoRepository.findAll(Example.of(servico, customExampleMatcher));
 

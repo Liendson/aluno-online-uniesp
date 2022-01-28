@@ -1,12 +1,15 @@
 package com.redetex.web.model.entidade;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.redetex.web.model.enums.SituacaoEnum;
 import com.redetex.web.model.enums.TipoEnum;
+import com.redetex.web.model.utilities.CustomJsonDateDeserializer;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -43,6 +46,10 @@ public class Orcamento {
     @Column(name = "OBSORCAMENTO")
     String observacaoOrcamento;
 
+    @Column(name = "DTORCAMENTO")
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+    Date dataOrcamento;
+
     @Builder
     public Orcamento(
         Long idOrcamento,
@@ -52,7 +59,8 @@ public class Orcamento {
         Endereco enderecoOrcamento,
         Medida medidasOrcamento,
         Float valorOrcamento,
-        String observacaoOrcamento
+        String observacaoOrcamento,
+        Date dataOrcamento
     ) {
         this.idOrcamento = idOrcamento;
         this.tipoOrcamento = tipoOrcamento;
@@ -62,6 +70,7 @@ public class Orcamento {
         this.medidasOrcamento = medidasOrcamento;
         this.valorOrcamento = valorOrcamento;
         this.observacaoOrcamento = observacaoOrcamento;
+        this.dataOrcamento = dataOrcamento;
     }
 
 }
