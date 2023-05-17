@@ -1,7 +1,6 @@
 package com.alunoonline.api.model.service.impl;
 
 import com.alunoonline.api.model.entidade.MatriculaAluno;
-import com.alunoonline.api.model.entidade.dto.AlunoDTO;
 import com.alunoonline.api.model.entidade.dto.MatriculaAlunoDTO;
 import com.alunoonline.api.model.exception.CustomException;
 import com.alunoonline.api.model.exception.DefaultException;
@@ -71,7 +70,7 @@ public class MatriculaAlunoServiceImpl implements MatriculaAlunoService {
 
         Optional<MatriculaAluno> matriculaAluno = matriculaAlunoRepository.findById(id);
 
-        DefaultException.ifTrueThrowException(!matriculaAluno.isPresent(), AlunoOnlineValidacoes.ERRO_CLIENTE_NAO_EXISTE);
+        DefaultException.ifTrueThrowException(!matriculaAluno.isPresent(), AlunoOnlineValidacoes.ERRO_NAO_EXISTE);
 
         MatriculaAluno matriculaDeletada = matriculaAluno.get();
         matriculaAlunoRepository.delete(matriculaDeletada);

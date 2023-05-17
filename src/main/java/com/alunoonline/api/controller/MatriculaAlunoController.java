@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/procedimentos")
+@RequestMapping("/matricula")
 public class MatriculaAlunoController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class MatriculaAlunoController {
     }
 
     @PatchMapping(value = "/atualizar")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<MatriculaAlunoDTO> atualizar(@RequestBody MatriculaAlunoDTO matriculaAlunoDTO) throws CustomException {
         return ResponseEntity.ok(matriculaAlunoService.salvar(matriculaAlunoDTO));
     }

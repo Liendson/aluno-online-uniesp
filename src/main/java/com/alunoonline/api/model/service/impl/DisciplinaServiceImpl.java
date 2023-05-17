@@ -60,7 +60,7 @@ public class DisciplinaServiceImpl implements DisciplinaService {
 
         Optional<Disciplina> disciplina = disciplinaRepository.findById(id);
 
-        DefaultException.ifTrueThrowException(!disciplina.isPresent(), AlunoOnlineValidacoes.ERRO_CLIENTE_NAO_EXISTE);
+        DefaultException.ifTrueThrowException(!disciplina.isPresent(), AlunoOnlineValidacoes.ERRO_NAO_EXISTE);
 
         Disciplina disciplinaDeletada = disciplina.get();
         disciplinaRepository.delete(disciplinaDeletada);

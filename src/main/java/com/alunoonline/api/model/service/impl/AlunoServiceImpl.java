@@ -63,7 +63,7 @@ public class AlunoServiceImpl implements AlunoService {
 
         Optional<Aluno> aluno = alunoRepository.findById(id);
 
-        DefaultException.ifTrueThrowException(!aluno.isPresent(), AlunoOnlineValidacoes.ERRO_CLIENTE_NAO_EXISTE);
+        DefaultException.ifTrueThrowException(!aluno.isPresent(), AlunoOnlineValidacoes.ERRO_NAO_EXISTE);
 
         Aluno alunoDeletado = aluno.get();
         alunoRepository.delete(alunoDeletado);

@@ -62,7 +62,7 @@ public class ProfessorServiceImpl implements ProfessorService {
 
         Optional<Professor> professor = professorRepository.findById(id);
 
-        DefaultException.ifTrueThrowException(!professor.isPresent(), AlunoOnlineValidacoes.ERRO_CLIENTE_NAO_EXISTE);
+        DefaultException.ifTrueThrowException(!professor.isPresent(), AlunoOnlineValidacoes.ERRO_NAO_EXISTE);
 
         Professor professorDeletado = professor.get();
         professorRepository.delete(professorDeletado);

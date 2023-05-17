@@ -36,7 +36,7 @@ public class AlunosController {
     }
 
     @PatchMapping(value = "/atualizar")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<AlunoDTO> atualizar(@RequestBody AlunoDTO alunoDTO) throws CustomException {
         return ResponseEntity.ok(alunoService.salvar(alunoDTO));
     }
