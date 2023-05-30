@@ -1,5 +1,7 @@
 package com.alunoonline.api.controller;
 
+import com.alunoonline.api.model.entidade.dto.AtualizarNotasDTO;
+import com.alunoonline.api.model.entidade.dto.HistoricoAlunoDto;
 import com.alunoonline.api.model.entidade.dto.MatriculaAlunoDTO;
 import com.alunoonline.api.model.exception.CustomException;
 import com.alunoonline.api.model.service.MatriculaAlunoService;
@@ -45,5 +47,23 @@ public class MatriculaAlunoController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<MatriculaAlunoDTO> deletar(@PathVariable Long id) throws CustomException {
         return ResponseEntity.ok(matriculaAlunoService.deletar(id));
+    }
+
+    @PostMapping(value = "/atualizar-notas")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void atualizarNotas(@RequestBody AtualizarNotasDTO atualizarNotasDTO) throws CustomException {
+        matriculaAlunoService.atualizarNotas(atualizarNotasDTO);
+    }
+
+    @PatchMapping(value = "/trancar-matricula/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void trancarMatricula(@PathVariable Long id) throws CustomException {
+        matriculaAlunoService.trancarMatricula(id);
+    }
+
+    @GetMapping(value = "/emitir-historico-aluno/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<HistoricoAlunoDto> emitirHistoricoAluno(@PathVariable Long id) throws CustomException {
+        return ResponseEntity.ok(matriculaAlunoService.emitirHistoricoDoAluno(id));
     }
 }

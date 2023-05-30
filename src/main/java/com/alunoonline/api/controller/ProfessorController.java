@@ -1,5 +1,7 @@
 package com.alunoonline.api.controller;
 
+import com.alunoonline.api.model.entidade.Disciplina;
+import com.alunoonline.api.model.entidade.dto.DisciplinaDTO;
 import com.alunoonline.api.model.entidade.dto.ProfessorDTO;
 import com.alunoonline.api.model.exception.CustomException;
 import com.alunoonline.api.model.service.ProfessorService;
@@ -45,6 +47,12 @@ public class ProfessorController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<ProfessorDTO> deletar(@PathVariable Long id) throws CustomException {
         return ResponseEntity.ok(professorService.deletar(id));
+    }
+
+    @GetMapping(value = "/listar-disciplinas/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Disciplina>> obterDisciplinas(@PathVariable Long id) throws CustomException {
+        return ResponseEntity.ok(professorService.obterDisciplinas(id));
     }
 
 }

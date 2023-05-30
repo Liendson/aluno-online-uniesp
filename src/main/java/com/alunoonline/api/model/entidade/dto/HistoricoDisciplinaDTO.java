@@ -1,7 +1,6 @@
 package com.alunoonline.api.model.entidade.dto;
 
-import com.alunoonline.api.model.entidade.Aluno;
-import com.alunoonline.api.model.entidade.Disciplina;
+import com.alunoonline.api.model.entidade.Professor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,21 +8,19 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class MatriculaAlunoDTO {
-
+@NoArgsConstructor
+public class HistoricoDisciplinaDTO {
 
     private Long id;
+
+    private String nome;
 
     private Double primeiraNota;
 
     private Double segundaNota;
 
-    private Aluno aluno;
-
-    private Disciplina disciplina;
+    private Double media;
 
     private String status;
-
 }
